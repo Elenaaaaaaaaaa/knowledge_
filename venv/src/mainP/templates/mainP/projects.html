@@ -1,0 +1,93 @@
+{% extends 'mainP/main_template.html' %}
+{% load static %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html">
+    p { color: #ced4da;
+        font-weight: 400;
+       }
+    span { color: #343a40; }
+
+    .card>.card-header .card-toolbar {
+    display: flex;
+    align-items: center;
+    margin: .5rem 0;
+    flex-wrap: wrap;
+    }
+    .useFontAwesomeFamily::placeholder { /* Most modern browsers */
+        font-family: "Font Awesome 5 Brands" !important;
+    }
+
+    tr.green {
+     background-color: #ddffbc;
+     opacity: 0.80;
+    }
+
+</style>
+
+<form action="", method="POST">
+    {% csrf_token %}
+
+<!--    TABLE FORM-->
+    <div class="col-xl-12">
+        <div class="row"><a class="btn btn-primary btn-lg er-3 pt-3 mx-3 mb-xl-3 my-4", name="submit"  href="{% url 'project_create' %}"> Добавить проект </a></div>
+        <div class="card card-xxl-stretch mb-5 mb-xl-3 my-4">
+            <div class="card card-header bord er-0 pt-3 mb-xl-3">
+               <div class="card-toolbar">
+                   <div class="container">
+                       <div class="row">
+                            <div class="col-10 .col-md-2">
+                                <span class="card-label fw-boldest text-gray-800 fs-1"> Проекты </span>
+                                <p class="text-gray-300 font-weight-light mt-2 fs-8"> Количество проектов: {{amount}} / Количество текущих: {{amount_}}</p>
+                            </div>
+                           <div class="col-2 .col-md-6 pt-3">
+                               <input class="form-control mr-sm-2 bi bi-search" type="search" placeholder="Найти проект" aria-label="Search" name="title">
+                           </div>
+                           <form method="get">
+<!--                               {{myFilt.form}}-->
+                           </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body py-0">
+                <div class="table-responsive">
+                    <table id="table_content" class="table table-bordered" width="100%">
+                        <thead>
+                            <th><input type="checkbox" id="checkall" /></th>
+                            <th> ID </th>
+                            <th> Название </th>
+                            <th> Участники </th>
+                            <th> Начало  работ</th>
+                            <th> Заверщение работ</th>
+                            <th> Измененить</th>
+                            <th> Удалить</th>
+                        </thead>
+                        <tbody id="myTable">
+                            {% for project in projects %}
+                                <tr class="{% if project.pr_status == 'завершен' %}green{% endif %}">
+                                    <td> <input type="checkbox" id="check_i" /></td>
+                                    <td>{{project.id}}</td>
+                                    <td>{{project.pr_name}}</td>
+                                    <td>{% for val in project.pr_team.all%}
+                                        {{val.get_full_name}}
+                                        | {% endfor %}</td>
+                                    <td>{{project.pr_start}}</td>
+                                    <td>{{project.pr_deadline}}</td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="{% url 'project_update' project.id %}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                                    <td><p data-placement="top" data-toggle="tooltip" title="Delete"><a href="{% url 'project_delete' project.id %}" class="btn btn-danger btn-xs"  ><span class="glyphicon glyphicon-trash"></span></a></p></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    END of the table form-->
+</form>
+
+{% endblock %}

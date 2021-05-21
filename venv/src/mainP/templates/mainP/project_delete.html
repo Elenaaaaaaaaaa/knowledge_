@@ -1,0 +1,17 @@
+{% extends 'mainP/main_template.html' %}
+{% load static %}
+{% block title %} Project_ed {% endblock %}
+{% block content %}
+<div class="card px-3">
+<h4 class="card-title">Вы уверены, что хотите удалить проект "{{item}}" ?</h4>
+<form action="{% url 'project_delete' item.id %}" method="POST">
+    {% csrf_token %}
+<!--    <input type="submit" name="УДАЛИТЬ"> Удалить </input>-->
+    <div class="d-flex justify-content-start">
+    <button class="btn btn-outline-danger mb-3 mx-3" type="submit"> удалить </button>
+    <a href="{% url 'projects' %}" class="btn btn-outline-primary"> отмена </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

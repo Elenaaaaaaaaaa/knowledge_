@@ -1,0 +1,98 @@
+{% extends 'mainP/main_template.html' %}
+{% load static %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    p { color: #ced4da;
+        font-weight: 400;
+       }
+    span { color: #343a40; }
+
+    .card>.card-header .card-toolbar {
+    display: flex;
+    align-items: center;
+    margin: .5rem 0;
+    flex-wrap: wrap;
+    }
+    .useFontAwesomeFamily::placeholder { /* Most modern browsers */
+        font-family: "Font Awesome 5 Brands" !important;
+    }
+
+    tr.green {
+     background-color: #ddffbc;
+     opacity: 0.80;
+    }
+
+</style>
+
+<form action="" method="GET">
+
+<!--    TABLE FORM-->
+    <div class="col-xl-12">
+         <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="row"><a class="btn btn-primary btn-lg mx-5 my-3", name="submit"  href="{% url 'doc_create' the_project.id %}"> Новый файл </a></div>
+            </div>
+        <div class="card card-xxl-stretch mb-5 mb-xl-3 my-4">
+            <div class="card card-header bord er-0 pt-3 mb-xl-3">
+               <div class="card-toolbar">
+                   <div class="container">
+                       <div class="col-12">
+                           <div class="row">
+                                <div class="col-7 .col-md-0">
+                                    <span class="card-label fw-boldest text-gray-800 fs-1"> Документы </span>
+                                    <p class="text-gray-300 font-weight-light mt-2 fs-8"> Принято {{done_docs}} документов из {{all_docs}} </p>
+                                </div>
+
+                                   <div class="col-2 .col-md-2 pt-1 mx-0 px-0 " >
+                                        <input id = "search_here" class="form-control mr-sm-1 bi bi-search"  type="search" placeholder="Найти документ" aria-label="Search" name="q">
+                                   </div>
+                                   <div class="col-1 .col-md-2 pt-1 mx-0 px-0" >
+                                        <button class="btn btn-primary btn-block mb-3 float-end" type="submit"> Найти </button>
+                                   </div>
+                               <div class="col-2 .col-md-2 pt-1 mx-0 px-0 px-2" >
+                                <button class="btn btn-primary btn-block mb-3 float-end"  href="{% url 'project_Docs' the_project.id the_project.pr_name %}" type="submit"> Все документы </button>
+                               </div>
+                       </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="card-body py-0">
+                <div class="table-responsive">
+                     <table id="table_content" class="table table-bordered table-sm mt-4 mb-4" width="100%">
+                        <thead>
+                            <th class="text-muted"> Название </th>
+                            <th class="text-muted"> Изменения </th>
+                            <th class="text-muted"> Статус </th>
+                            <th class="text-muted"> Изменить </th>
+                            <th class="text-muted"> Удалить </th>
+
+                        </thead>
+                       <tbody id="myT">
+                            {% for doc in documents %}
+                                <tr class="{% if doc.doc_acc == 'принят' %}green{% endif %}">
+                                    <td>{% if doc.doc_doc %}<a class="card-link fw-normal" style="text-decoration:none; color:#000" href="{{ doc.doc_doc.url }}" download></a>{% else %}<a class="card-link fw-normal" style="text-decoration:none; color:#000" href="{{ doc.doc_link }}">{% endif %}{{doc.doc_name}}</a><a class="card-link fw-normal" style="text-decoration:none; color:#000" href="{{ doc.doc_link }}"></a></td>
+                                    <td>{{doc.doc_date}}</td>
+                                    <td>{{doc.doc_acc}}</td>
+                                    <td><center><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="{% url 'doc_update' doc.id the_project.pr_name %}"><i class="far fa-edit fa-lg"> </i></a></p></center></td>
+                                    <td><center><p data-placement="top" data-toggle="tooltip" title="Delete"><a href="{% url 'doc_delete' doc.id the_project.pr_name %}" ><i class="far fa-trash-alt fa-lg" style="color: Tomato;"></i></a></p></center></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    END of the table form-->
+</form>
+
+{% endblock %}
+

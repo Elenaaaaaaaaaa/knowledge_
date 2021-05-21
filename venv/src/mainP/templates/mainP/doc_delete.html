@@ -1,0 +1,23 @@
+{% extends 'mainP/main_template.html' %}
+{% load static %}
+{% block title %} Delete document {% endblock %}
+{% block content %}
+<!--<p>Вы уверены, что хотите удалить документ "{{item}}" ?</p>-->
+<!--<form action="{% url 'doc_delete' item.id i %}" method="POST">-->
+<!--    {% csrf_token %}-->
+<!--    <input type="submit"> Удалить </input>-->
+<!--    <a href="{% url 'projectPage' i %}" class="btn btn-primary btn-xs"> ОТМЕНА </a>-->
+<!--</form>-->
+<div class="card px-3">
+<h4 class="card-title">Вы уверены, что хотите удалить документ "{{item}}" ?</h4>
+<form action="{% url 'doc_delete' item.id i %}" method="POST">
+    {% csrf_token %}
+<!--    <input type="submit" name="УДАЛИТЬ"> Удалить </input>-->
+    <div class="d-flex justify-content-start">
+    <button class="btn btn-outline-danger mb-3 mx-3" type="submit"> удалить </button>
+    <a href="{% url 'projectPage' i %}" class="btn btn-outline-primary"> отмена </a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

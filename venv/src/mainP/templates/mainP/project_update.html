@@ -1,0 +1,66 @@
+{% extends 'mainP/main_template.html' %}
+{% load static %}
+{% block title %} task_add {% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<style>
+    p { color: #ced4da;
+        font-weight: 400;
+       }
+    span { color: #343a40; }
+
+    .card>.card-header .card-toolbar {
+    display: flex;
+    align-items: center;
+    margin: .5rem 0;
+    flex-wrap: wrap;
+    }
+    .useFontAwesomeFamily::placeholder { /* Most modern browsers */
+        font-family: "Font Awesome 5 Brands" !important;
+    }
+
+    tr.green {
+     background-color: #ddffbc;
+     opacity: 0.80;
+    }
+</style>
+
+<form action="", method="POST">
+    <div class="d-flex justify-content-center">
+     <div class="col-md-8">
+
+            <div class="row row-cols-2 row-cols-md-2 mb-3 mt-5 text-left mx-auto">
+                <div class="col-sm-8">
+                    <div class="row">
+                    </div>
+                     <div class="row">
+                    </div>
+                </div>
+                <div class="col-sm-10 mx-auto px-5">
+                    <div class="row mb-2" >
+                            <p class="fs-2 text-left border-bottom-mb-4 mt-4 mx-4"> Изменение настроек проекта </p>
+                    </div>
+                    <div class="row">
+                        <div class="card mb-0 rounded-3 shadow-sm-4 px-4 mt-4 mx-4">
+                             <fieldset class="form-group">
+                                   <div class="col text-left justify-content-center align-self-center">
+                                        {% csrf_token %}
+                                        {{form|crispy}}
+                                    </div>
+                             </fieldset>
+                            <div class="mt-3">
+                             <center><button class="btn btn-lg btn-primary btn-block mb-3" type="submit"> Готово </button></center>
+                            </div>
+                        </div>
+                    <div class="row">
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                </div>
+                </div>
+         </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

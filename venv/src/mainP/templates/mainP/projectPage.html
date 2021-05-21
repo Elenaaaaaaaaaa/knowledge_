@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load crispy_forms_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/05dcfc8ed0.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <title>Project page</title>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <style>
+    ul { list-style-type: none; }
+
+    #sidebar-wrapper{
+        z-index: 1;
+        position: absolute;
+        margin-bottom: -2000px;
+        padding-bottom: 2000px;
+        width: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #212529;
+    }
+
+    #page-center-content-wrapper{
+        position: absolute;
+        width: 100%;
+        padding: 15px;
+        overflow: hidden;
+    }
+
+    #wrapper.menuDisplayed #sidebar-wrapper{
+        width: 250px;
+        overflow: hidden;
+    }
+
+    #wrapper.menuDisplayed #page-center-content-wrapper{
+        padding-left: 250px;
+        overflow: hidden;
+    }
+
+    #wrapper.menuDisplayed #upmenu{
+        padding-left: 0px;
+        overflow: hidden;
+    }
+
+    #wrapper.menuDisplayed #body{
+        overflow: hidden;
+    }
+
+    .sidebar-nav{
+        padding: 0;
+        list-style: none;
+    }
+
+    .sidebar-nav li{
+
+        text-index: 20px;
+        line-height: 40px;
+    }
+
+    .sidebar-nav li a{
+        display: block;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .sidebar-nav li a:hover{
+        background: #6c757d;
+    }
+
+    #menu-toggle{
+        color: #fff;
+        border-color: rgba(255,255,255,.1);
+    }
+
+    	.profile-pic{
+		max-width: 200px;
+		max-height: 200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+
+	.text-gray-400 {
+    color: #b5b5c3!important;
+    }
+
+    .helptext{
+    font-size: 12px;
+    }
+
+     .a
+     {text-decoration: none;
+     }
+
+     .phone-field-ext { display: none;
+     }
+
+     .table-bordered{
+  font-size: 12px;
+  white-space: nowrap;
+}
+ tr.green {
+     background-color: #ddffbc;
+     opacity: 0.80;
+    }
+tr.bottom td{
+  border-bottom: #b5b5c3;
+}
+
+</style>
+</head>
+
+<header class="p-3 bg-dark text-white">
+  <div class="container" id="upmenu">
+
+<!--This is the menu bar-->
+    <div class="d-flex flex-wrap align-items-center justify-content-lg-start">
+        <i class="fas fa-bars fa-lg px-1 mx-2 py-0 mp-0" id="menu-toggle"></i>
+        <i class="far fa-user-circle fa-2x px-0 mx-0 py-0 mp-0 "></i>
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-0 justify-content-center mb-md-0">
+        <li><a href="{% url 'userPage' request.user.id %}" class="nav-link px-2 mr-3 link-secondary">{{request.user.username}}</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link px-2 link-light">Главная</a></li>
+          <li><a href="#" class="nav-link px-2 link-light">Календарь</a></li>
+        <li><a href="{% url 'tasks' %}" class="nav-link px-2 link-light">Задачи</a></li>
+      </ul>
+
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+        <input type="search" class="form-control" placeholder="Поиск...">
+      </form>
+        <ul class="col-lg-auto">
+        </ul>
+        <small><a href="{% url 'logout' %}" class="nav-link px-1 link-light text-right">Выход</a></small>
+    </div>
+  </div>
+<!--This is the END of the menu bar-->
+</header>
+
+<body>
+<!--This is the sidebar bar-->
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                {% for val in projects%}
+                <li><a class="nav-link px-2 link-light" href="{% url 'projectPage' val %}"> <i class="fas fa-chevron-right"></i> {{val}}</a></li>
+                 {% endfor %}
+                <li><a class="nav-link px-2 link-light" href="{% url 'projects' %}"> Управление проектами</a></li>
+            </ul>
+        </div>
+<!--This is the END of the side bar-->
+
+<!--This is the main area -->
+        <form method="POST" action="" enctype="multipart/form-data" >
+        <div id="page-center-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card mb-5 mb-xxl-8">
+                        <div class="card-body pt-9 pb-0">
+                            <div class="me-7 mb-4">
+
+                                <div class="d-flex flex-wrap flex-sm-nowrap mb-6">
+
+                                     <div class="flex-grow-1">
+                                         <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                                             <div class="d-flex flex-column">
+                                                 <div class="d-flex align-items-center mb-2">
+                                                     <h6 class="text-gray-800 text-hover-primary fs-2 fw-boldest me-1"> {{the_project}}</h6>
+<!-- THE FIRST CARD WITH TASKS IS HERE -->
+                                                 </div>
+
+                                                 <div class="d-flex flex-wrap fs-6 mb-4 pe-2 mx-0 border-bottom">
+                                                      <a class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2" style="text-decoration:none"> <i class="fas fa-hourglass-start fa-xs px-0 mx-1 py-0 mp-0 "></i> Старт: {{the_project.pr_start}} </a>
+                                                     <a class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2" style="text-decoration:none"> <i class="fas fa-hourglass-end fa-xs px-0 mx-1 py-0 mp-0 "></i> Завершение: {{the_project.pr_deadline}}</a>
+                                                 </div>
+
+
+                                                 <div class="row mt-4">
+                                                    <div class="col-sm">
+                                                         <div class="card" style="height: 30rem;">
+                                                              <div class="card-body">
+                                                                  <a href="{% url 'task_add' the_project.id %}" class="card-link float-end text-xsmall text-gray-400 text-hover-primary" style="text-decoration:none" > Добавить </a>
+                                                                <h5 class="card-title mr-5"> Текущая задача </h5>
+
+                                                                <h6 class="card-subtitle mb-3 text-muted ">  Актуальные: {{act_tc}} | Завершенные {{nact_tc}} </h6>
+
+                                                                  <table id="table borderless" class="table table-sm mt-5 mb-4 bottom" width="100%">
+                                                                      <tbody id="myT1">
+                                                                       {% for t in the_tasks %}
+                                                                      <tr class="{% if t.tk_status == 'выполнено' %}green{% endif %} bottom">
+                                                                          </td>
+                                                                            <td> {{t.tk_name}}</td>
+
+                                                                           <td>
+
+                                                                                          {% for val in t.tk_type.all%}
+
+<!--                                {{val.tg_name}}-->
+                                {% ifequal val.tg_name 'важно' %}
+                                                                                <font color="green">{{val.tg_name}}</font>
+                                {% endifequal %}
+
+                                {% ifequal val.tg_name 'баг' %}
+                                                                               <font color="Tomato">{{val.tg_name}}</font>
+                                {% endifequal %}
+
+                                {% ifequal val.tg_name 'информация' %}
+                                                                                <font color="#FFC300">{{val.tg_name}}</font>
+                                {% endifequal %}
+
+                                {% ifequal val.tg_name 'новости' %}
+                                                                                <font color="#FFC300">{{val.tg_name}}</font>
+                                {% endifequal %}
+
+                                 {% ifequal val.tg_name 'документация' %}
+                                                                                <font color="#CBC5C3 ">{{val.tg_name}}</font>
+                                {% endifequal %}
+
+                                {% ifequal val.tg_name 'код' %}
+                                                                                <font color="#CBC5C3 ">{{val.tg_name}}</font>
+                                {% endifequal %}
+
+                                                                               {% endfor %} </td>
+                                                                          <td>
+                                                                              {% if  t.tk_dif == '1' %}
+                                                                                    (простая)
+                                                                               {% endif %}
+                                                                              {% if  t.tk_dif == '2' %}
+                                                                                    (обычная)
+                                                                               {% endif %}
+                                                                              {% if  t.tk_dif == '3' %}
+                                                                                    (сложная)
+                                                                               {% endif %}
+                                                                              {% if  t.tk_dif == '4' %}
+                                                                                    (ОЧЕНЬ СЛОЖНАЯ)
+                                                                               {% endif %}
+                                                                          </td>
+                                                                          <td>
+                                                                              {% if t.tk_status == 'актуально' %}
+                                                                              <center><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="{% url 'task_complete' the_project.id t.id %}"><i class="far fa-check-circle fa-lg" data-fa-transform="shrink-8" style="color: green;"> </i></a></p></center>
+                                                                              {% endif %}
+                                                                          </td>
+
+                                                                      </tr>
+                                                                      </tbody>
+                                                                        {% endfor %}
+                                                                  </table>
+                                                                  <a href="{% url 'tasks' %}" class="card-link float-start text-xsmall text-gray-400 text-hover-primary mx-1 mt-1" style="text-decoration:none" > Изменить </a>
+
+<!--                                                                    <p class="card-text">  </p>-->
+                                                              </div>
+
+                                                         </div>
+                                                    </div>
+
+                                                     <div class="col-sm">
+                                                         <div class="card" style="height: 30rem;">
+                                                              <div class="card-body">
+                                                                  <a href="{% url 'doc_create' the_project.id %}" class="card-link float-end text-xsmall text-gray-400 text-hover-primary" style="text-decoration:none" > Добавить </a>
+                                                                <h5 class="card-title"> Информация по документам проекта </h5>
+                                                                <h6 class="card-subtitle text-muted mb-2"> Принято {{done_docs}} документов из {{all_docs}} </h6>
+
+                                                               <table id="table_content" class="table table-bordered table-sm mt-4 mb-4" width="100%">
+                                                                <thead>
+                                                                    <th class="text-muted"> Название </th>
+                                                                    <th class="text-muted"> Изменения </th>
+                                                                    <th class="text-muted"> Статус </th>
+                                                                    <th class="text-muted"> Изменить </th>
+                                                                    <th class="text-muted"> Удалить </th>
+
+                                                                </thead>
+                                                               <tbody id="myT">
+                                                                    {% for doc in documents %}
+                                                                        <tr class="{% if doc.doc_acc == 'принят' %}green{% endif %}">
+                                                                            <td>{% if doc.doc_doc %}<a class="card-link fw-normal" style="text-decoration:none; color:#000" href="{{ doc.doc_doc.url }}" download></a>{% else %}<a class="card-link fw-normal" style="text-decoration:none; color:#000" href="{{ doc.doc_link }}">{% endif %}{{doc.doc_name}}</a>
+                                                                                <a class="card-link fw-normal" style="text-decoration:none; color:#000" href="{{ doc.doc_link }}"></a></td>
+                                                                            <td>{{doc.doc_date}}</td>
+                                                                            <td>{{doc.doc_acc}}</td>
+                                                                            <td><center><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="{% url 'doc_update' doc.id the_project.pr_name %}"><i class="far fa-edit fa-lg"> </i></a></p></center></td>
+                                                                            <td><center><p data-placement="top" data-toggle="tooltip" title="Delete"><a href="{% url 'doc_delete' doc.id the_project.pr_name %}" ><i class="far fa-trash-alt fa-lg" style="color: Tomato;"></i></a></p></center></td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                               </table>
+                                                                <a href="{% url 'project_Docs' the_project.id the_project.pr_name %}" class="card-link float-start text-xsmall text-gray-400 text-hover-primary" style="text-decoration:none" > Подробнее </a>
+                                                                  <a href="{% url 'documentation' the_project.pr_name %}" class="card-link float-start text-xsmall text-gray-400 text-hover-primary" style="text-decoration:none" > Смотреть документацию проекта </a>
+                                                              </div>
+                                                         </div>
+                                                     </div>
+
+                                                     <div class="col-sm">
+                                                         <div class="card" style="height: 30rem;">
+                                                              <div class="card-body">
+                                                                <h5 class="card-title"> Новости по проекту </h5>
+                                                                  <div class="mt-3" id="myChart_"></div>
+                                                              </div>
+                                                         </div>
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<!-- THE SECOND CARD WITH GRAPHICS IS HERE -->
+                <div class="row">
+
+                    <div class="col-sm">
+                        <div class="card mb-5 mb-xxl-8">
+                            <div class="card-body pt-9 pb-0">
+                                <h5 class="card-title mx-4"> Комментарии </h5>
+                                 {% for com in comments %}
+                                <div class="me-7 mb-4 mx-3 border-bottom">
+                                    <div class="card-body">
+
+                                        <div class="d-flex align-items-center flex-grow-1 mt-4">
+
+
+
+											<div class="symbol symbol-45px me-5 ">
+												<img class="profile-pic" src="{{ com.com_user.information.info_image.url}}" width="50" height="50 ">
+                                                <div class="d-flex flex-column">
+                                                    <center><a href="#" class="text-gray-800 text-hover-primary mb-1 fs-6 fw-boldesttext-hover-primary me-5 mx-1" style="text-decoration:none"> {{com.com_user}} </a></center>
+                                                </div>
+                                            </div>
+                                                        <div class="d-flex flex-column ">
+                                                                <span class="text-gray-400 text-hover-primary me-2" style="font-size: 70%"> {{com.com_date}} </span>
+                                                                <h5 class="text-gray-800 text-hover-primary mb-1 fs-6 fw-bold "> {{com.com_title}} </h5>
+                                                                <p class="card-text"> {{com.com_text}} </p>
+                                                        </div>
+										    </div>
+                                        </div>
+                                 </div>
+                                {% endfor %}
+
+ <div class="card mb-5 mb-xxl-8">
+                            <h5 class="card-title mt-5 text-gray-400 mx-4">Добавить комментарии </h5>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                        <div class="row">
+                                      <div class="col-8 .col-md-2 pt-1 mx-0 px-0 mx-5 mt-2 px-6" >
+
+                                               {{form|crispy}}
+                                            <button class="btn btn-primary btn-block mb-3 float-end mt-3" type="submit"> Отправить </button>
+
+                                       </div>
+
+                                        </div>
+                                </form>
+ </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm">
+                        <div class="card mb-5 mb-xxl-8">
+                            <div class="card-body pt-9 pb-0">
+                                <div class="me-7 mb-4 mx-3">
+                                    <h5 class="card-title mt-3"> Состояние проекта </h5>
+                                    <p class="card-subtitle mb-3 text-muted"> {% now "d-m-Y" as todays_date %} {{ todays_date }} </p>
+                                    <div id="myChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+<script>
+    $("#menu-toggle").click(function(e){
+        e.preventDefault();
+        $("#wrapper").toggleClass("menuDisplayed");
+    });
+</script>
+
+
+<script>
+ let myConfig = {
+      type: 'line',
+      legend: {
+        margin: 'auto auto 15 auto',
+        backgroundColor: 'none',
+        borderWidth: '0px',
+        item: {
+          margin: '0px',
+          padding: '0px',
+          fontColor: '#707d94',
+          fontFamily: 'Arial',
+          fontSize: '9px'
+        },
+        layout: 'x4',
+        marker: {
+          type: 'match',
+          padding: '3px',
+          fontFamily: 'Arial',
+          fontSize: '10px',
+          lineWidth: '2px',
+          showLine: 'true',
+          size: 4
+        },
+        shadow: false
+      },
+
+            scaleLabel: {
+        padding: '5px 10px',
+        backgroundColor: '#707d94',
+        borderRadius: '5px',
+        fontColor: '#ffffff',
+        fontFamily: 'Arial',
+        fontSize: '12px'
+      },
+      crosshairX: {
+        lineColor: '#707d94',
+        lineWidth: '1px',
+        plotLabel: {
+          padding: '5px 10px',
+          alpha: 1,
+          borderRadius: '5px',
+          fontColor: '#000',
+          fontFamily: 'Arial',
+          fontSize: '10px',
+          shadow: false
+        }
+      },
+
+      scaleX: {
+        labels: [ 'прошлый месяц', '4 нед. назад', '3 нед. назад', '2 нед. назад', '1 нед. назад', 'Сейчас']
+      },
+      plot: {
+      },
+
+      series: [
+        {
+          values: [8, 5, 6, 4, 6, 3],
+          text: 'Проблем',
+          backgroundColor: '#f39189'
+        },
+        {
+          values: [2, 4, 4, 7, 4, 5],
+          text: 'Найдено решений',
+          backgroundColor: '#bb8082'
+        },
+        {
+          values: [2, 2, 1, 4, 3, 7],
+          text: 'Выполнено задач',
+          backgroundColor: '#046582'
+        }
+      ]
+
+
+    };
+
+    var myTheme = {
+        palette: {
+           line: [
+           ['#f39189', '#f39189', '#f39189'],
+           ['#bb8082', '#bb8082', '#bb8082'],
+           ['#046582', '#046582', '#046582'],
+
+    ]
+    }
+  };
+
+    // Render Method[3]
+    zingchart.render({
+      id: 'myChart',
+      data: myConfig,
+      fontSize: 10,
+      padding: 3,
+      adjustLayout: true,
+      height: 400,
+      width: '100%',
+      defaults: myTheme
+    });
+
+</script>
+
+<script>
+ let myConfig_ = {
+       type: 'hbar',
+      backgroundColor: '#fff',
+      borderColor: '#dae5ec',
+      borderWidth: '0px',
+      width: '80%',
+      height: '98%',
+      x: '10%',
+      y: '2%',
+      title: {
+        text: 'Проект в цифрах',
+        marginTop: '2px',
+        marginLeft: '9px',
+        backgroundColor: 'none',
+        fontColor: '#707d94',
+        fontFamily: 'BlinkMacSystemFont',
+        fontSize: '15px',
+        shadow: false,
+        textAlign: 'center',
+        width: '200px'
+      },
+      scaleY: {
+        guide: {
+          visible: false
+        },
+        item: {
+          visible: false
+        },
+        lineColor: 'none',
+        tick: {
+          visible: false
+        }
+      },
+      scaleX: {
+        values: [ 'Протестировано', 'Готовность документов','Готовность кода', 'Завершенность'],
+        guide: {
+          visible: false
+        },
+        item: {
+          paddingBottom: '5px',
+          fontColor: '#8391a5',
+          fontFamily: 'Arial',
+          fontSize: '14px',
+          offsetX: '220px',
+          offsetY: '-20px',
+          textAlign: 'left',
+          width: '220px'
+        },
+        lineColor: 'none',
+        tick: {
+          visible: false
+        }
+      },
+      plot: {
+        tooltip: {
+          padding: '5px 10px',
+          backgroundColor: '#707e94',
+          borderRadius: '6px',
+          fontColor: '#ffffff',
+          fontFamily: 'Arial',
+          fontSize: '17px',
+          shadow: false
+        },
+        animation: {
+          delay: 500,
+          effect: 'ANIMATION_EXPAND_LEFT'
+        },
+        barsOverlap: '100%',
+        barWidth: '15px',
+        hoverState: {
+          backgroundColor: '#707e94'
+        },
+        thousandsSeparator: ','
+      },
+      plotarea: {
+        margin: '50px 10px 1px 10px'
+      },
+      series: [
+        {
+          values: [30, 30, 50, 70],
+          styles: [
+            {
+              backgroundColor: '#f39189'
+            },
+            {
+              backgroundColor: '#f39189'
+            },
+            {
+              backgroundColor: '#f39189'
+            },
+            {
+              backgroundColor: '#f39189'
+            }
+          ],
+          tooltipText: '$%node-value',
+          zIndex: 2
+        },
+        {
+          values: [100, 100, 100, 100],
+          valueBox: {
+            text: '%data-rvalues%',
+            paddingBottom: '8px',
+            fontColor: '#8391a5',
+            fontFamily: 'Arial',
+            fontSize: '11px',
+            offsetX: '-30px',
+            offsetY: '-12px',
+            textAlign: 'right',
+            visible: true
+          },
+          backgroundColor: '#d9e4eb',
+          dataRvalues: [30, 30, 50, 70],
+          maxTrackers: 0,
+          zIndex: 1
+        }
+      ]
+    };
+
+    // Render Method[3]
+    zingchart.render({
+      id: 'myChart_',
+      data: myConfig_,
+      fontSize: 14,
+      padding: 3,
+      adjustLayout: true,
+      height: 300,
+      width: '100%',
+      defaults: myTheme
+    });
+
+</script>
+<!--This is the END of main area -->
+        </form>
+    </div>
+</body>
+</html>

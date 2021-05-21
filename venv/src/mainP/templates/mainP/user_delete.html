@@ -1,0 +1,12 @@
+{% extends 'mainP/main_template.html' %}
+{% load static %}
+{% block title %} User delete {% endblock %}
+{% block content %}
+<p>Вы уверены, что хотите удалить пользователя "{{item}}" ?</p>
+<form action="{% url 'user_delete' item.id %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+    <a href="{% url 'userPage' request.user.id %}" class="btn btn-primary btn-xs"> ОТМЕНА </a>
+</form>
+
+{% endblock %}

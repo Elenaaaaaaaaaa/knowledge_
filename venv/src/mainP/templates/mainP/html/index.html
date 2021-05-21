@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title> Welcome to Test_sphinx’s documentation! &#8212; Test_sphinx  documentation</title>
+    <link rel="stylesheet" type="text/css" href="{% static '_static/pygments.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static '_static/alabaster.css' %}" />
+    <script data-url_root="./" id="documentation_options" src="{% static '_static/documentation_options.js' %}'"></script>
+    <script src="{% static '_static/jquery.js' %}"></script>
+    <script src="{% static '_static/underscore.js' %}"></script>
+    <script src="{% static '_static/doctools.js' %}"></script>
+    <link rel="index" title="Index" href="{% url 'documentation1' pk %} " />
+    <link rel="search" title="Search" href="{% url 'documentation2' pk %}" />
+   
+  <link rel="stylesheet" href="{% static '_static/custom.css' %}" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="welcome-to-test-sphinx-s-documentation">
+<h1>Документация  Test_sphinx<a class="headerlink" href="#welcome-to-test-sphinx-s-documentation" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="main.Spamfilter">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre"> Sph </span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Testing auto documentation code</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.classify">
+<span class="sig-name descname"><span class="pre">classify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p> Классификация данных по фильтру
+    <p>
+:param filepath:
+:return: (boolean) True-&gt;spam, False-&gt;ham</p>
+</dd></dl>
+    <p>
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.classify_all">
+<span class="sig-name descname"><span class="pre">classify_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'spam'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.classify_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Классифицирует все электронные письма в каталоге тестирования и поддерживает количество ошибок.
+    <p>
+:param dir_path: path of testing directory
+:param known_type: str: the known type of testing directory</p>
+</dd></dl>
+    <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.clean_table">
+<span class="sig-name descname"><span class="pre">clean_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_freq</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.clean_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Удаляет записи из частотной таблицы, если они считаются плохими показателями.
+:param min_freq: if total token count below threshold, delete from table</p>
+</dd></dl>
+      <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.create_frequency_table">
+<span class="sig-name descname"><span class="pre">create_frequency_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.create_frequency_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Создает таблицу частот токенов из обучающих писем.
+    <p>
+:return:  dict{k,v}:  spam/ham frequencies
+k = (str)token, v = {spam_freq: , ham_freq:, prob_spam:, prob_ham:}</p>
+</dd></dl>
+      <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.print_table_info">
+<span class="sig-name descname"><span class="pre">print_table_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.print_table_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Вывод информации:
+- unique tokens in ham and spam, number of emails in training set</p>
+</dd></dl>
+      <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.prob_ham">
+<span class="sig-name descname"><span class="pre">prob_ham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.prob_ham" title="Permalink to this definition">¶</a></dt>
+<dd><p>Высчитывание вероятности события.
+:param token: (str)
+:return: (float) probability ‘token’ is ham based on training emails</p>
+</dd></dl>
+      <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.prob_msg_ham">
+<span class="sig-name descname"><span class="pre">prob_msg_ham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.prob_msg_ham" title="Permalink to this definition">¶</a></dt>
+<dd><p>Высчитывает вероятность ложных показателей.
+:param filepath: (str) path of email
+:return: (float) probability message is ham</p>
+</dd></dl>
+      <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.prob_msg_spam">
+<span class="sig-name descname"><span class="pre">prob_msg_spam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.prob_msg_spam" title="Permalink to this definition">¶</a></dt>
+<dd><p> Подсчет вероятности ложного сообщения.
+:param filepath: (str) path of email
+:return: (float) probability message is spam</p>
+</dd></dl>
+      <p>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Spamfilter.prob_spam">
+<span class="sig-name descname"><span class="pre">prob_spam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Spamfilter.prob_spam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Вычисляет вероятность того, что «токен» будет найден в спам-письмах
+:param token: (str)
+:return: (float) probability ‘token’ is spam based on training emails</p>
+</dd></dl>
+      <p>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.clean_split">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">clean_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.clean_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Удаляет все символы, отличные от буквенно-цифровых, и разделяет строку на пробелы в нижнем регистре.
+:param in_str: (str) target string
+:return: (list) cleaned strings</p>
+</dd></dl>
+
+        <p>
+<dl class="py function">
+<dt class="sig sig-object py" id="main.dir_tokens">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">dir_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.dir_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>tokenizes all files contained in ‘dir_path’
+:param dir_path: directory containing files to be tokenized
+:return: list of tokens</p>
+</dd></dl>
+        <p>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.file_tokens">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">file_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.file_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Строки, содержащиеся в «пути к файлу», после удаления всех не буквенно-цифровых символов и разделения строк на пробелы
+:param filepath: path of target file
+:return: list of tokens</p>
+</dd></dl>
+  <p>
+<dl class="py function">
+<dt class="sig sig-object py" id="main.sayHello">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">sayHello</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.sayHello" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – msg - Message to be shown</p></li>
+<li><p><strong>type</strong> – str</p></li>
+</ul>
+</dd>
+      <p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.tokens">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tok_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Возвращает список всех подстрок, содержащихся в «тексте» размера «tok_size».
+:param text: (string) text to tokenize
+:param tok_size: length of substrings
+:return: (list) tokens of ‘text’</p>
+</dd></dl>
+  <p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="{% url 'documentation1' pk %}"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="{% url 'documentation2' pk %}"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="{% url 'projectPage' pk %}">На страницу проекта</a></h1>
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<!--<div id="searchbox" style="display: none" role="search">-->
+<!--  <h3 id="searchlabel"> Быстрый поиск </h3>-->
+<!--    <div class="searchformwrapper">-->
+<!--    <form class="search" action="{% url 'documentation2' pk %}" method="get">-->
+<!--      <input type="text" name="q" aria-labelledby="searchlabel" />-->
+<!--      <input type="submit" value="Go" />-->
+<!--    </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script>$('#searchbox').show(0);</script>-->
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Elena.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
